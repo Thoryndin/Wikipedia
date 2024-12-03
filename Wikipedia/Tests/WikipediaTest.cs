@@ -27,7 +27,7 @@ public class WikipediaTest
         await wikipediaPage.NavigateToRandomPageAsync();
 
         Console.WriteLine($"Starting page: {await wikipediaPage.GetCurrentUrlAsync()}");
-        List<string> urls = new List<string> {await wikipediaPage.GetCurrentUrlAsync()};
+        List<string> visitedUrls = new List<string> {await wikipediaPage.GetCurrentUrlAsync()};
 
         var redirects = 0;
 
@@ -35,13 +35,13 @@ public class WikipediaTest
         {
             await wikipediaPage.ClickFirstLinkAsync();
 
-            if (urls.Contains(await wikipediaPage.GetCurrentUrlAsync()))
+            if (visitedUrls.Contains(await wikipediaPage.GetCurrentUrlAsync()))
             {
                 Assert.Fail("Navigation stopped because this page was already visited");
                 break;
             }
 
-            urls.Add(await wikipediaPage.GetCurrentUrlAsync());
+            visitedUrls.Add(await wikipediaPage.GetCurrentUrlAsync());
 
             redirects++;
         }
